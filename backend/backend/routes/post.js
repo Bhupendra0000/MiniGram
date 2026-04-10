@@ -1,14 +1,28 @@
-const multer = require("multer");
-const path = require("path");
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../uploads"));
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
+const router = require("express").Router();
+const Post = require("../models/post");
+const auth = require("../middleware/authMiddleware");
+const upload = require("../middleware/upload");
+
+router.post("/", auth, upload.single("image"), async (req, res) => {
+  try {
+    const imagePath = req.file ? `/uploads/${req.file.filename}` : "";
+
+    const post = await Post.create({
+      text: req.body.text,
+      image: imagePath,
+      username: req.user.username
+    });
+
+    res.json(post);
+  } catch (err) {
+    res.status(500).json("Error creating post");
   }
 });
 
-const upload = multer({ storage });
 
-module.exports = upload; 
+router.get("/", async (req, res) => {
+  const posts = await Post.find().sort({ createdAt: -1 });
+  res.json(posts);
+});
+
+module.exports = router; 
