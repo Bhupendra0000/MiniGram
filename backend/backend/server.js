@@ -19,6 +19,9 @@ const io = new Server(server, { cors: { origin: "*" } });
 
 app.set("io", io);
 
+console.log("AUTH:", require("./routes/auth"));
+console.log("POST:", require("./routes/post"));
+
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/posts", require("./routes/post"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
