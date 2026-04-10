@@ -59,10 +59,11 @@ return (
     />
 
     {file && (
-      <img
-        src={URL.createObjectURL(file)}
-        style={{ width: "100%", marginTop: 10, borderRadius: 10 }}
-      />
+     <img
+  src={URL.createObjectURL(file)}
+  alt="preview"
+  style={{ width: "100%", marginTop: 10, borderRadius: 10 }}
+/>
     )}
 
     <div
