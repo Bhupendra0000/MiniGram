@@ -79,12 +79,12 @@ return (
       <Typography sx={{ mt: 1 }}>{post?.text}</Typography>
 
       {post?.image && (
-        <img
-          src={`http://localhost:5000${post.image}`}
-          alt="post"
-          style={{ width: "100%", marginTop: 10, borderRadius: 10 }}
-          onDoubleClick={() => like && like(post._id)}
-        />
+      <img
+      src={`${process.env.REACT_APP_API_URL}/${post.image}`}
+      alt="post"
+      style={{ width: "100%", marginTop: 10, borderRadius: 10 }}
+      onDoubleClick={() => like && like(post._id)}
+    />
       )}
 
       <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
