@@ -19,6 +19,7 @@ A full stack social media web app built using MERN stack.
 
 ## 🌐 Live Demo
 Frontend: https://mini-gram-orpin.vercel.app
+
 Backend: https://minigram-backend-oz9e.onrender.com
 
 ## 📂 Folder Structure
