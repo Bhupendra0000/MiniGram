@@ -18,11 +18,11 @@ A full stack social media web app built using MERN stack.
 - Database: MongoDB Atlas
 
 ## 🌐 Live Demo
-Frontend: 
-Backend: 
+Frontend: https://mini-gram-orpin.vercel.app
+Backend: https://minigram-backend-oz9e.onrender.com
 
 ## 📂 Folder Structure
 - /frontend
 - /backend
-# Mini-social-app
-# MiniGram
+# Mini-social-app(MiniGram)
+
