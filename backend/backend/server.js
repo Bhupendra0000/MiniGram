@@ -3,11 +3,18 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
-const path = require("path"); 
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+origin: [
+  "http://localhost:3000",
+  "https://mini-gram-orpin.vercel.app"
+],
+credentials: true
+}));
+
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
@@ -15,18 +22,23 @@ mongoose.connect(process.env.MONGO_URI)
 .catch(err => console.log(err));
 
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+
+const io = new Server(server, {
+cors: {
+  origin: [
+    "http://localhost:3000",
+    "https://mini-gram-orpin.vercel.app"
+  ]
+}
+});
 
 app.set("io", io);
 
-console.log("AUTH:", require("./routes/auth"));
-console.log("POST:", require("./routes/post"));
-
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/posts", require("./routes/post"));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 app.get("/", (req, res) => {
-res.send("Backend is running ");
+res.send("Backend running 🚀");
 });
 
 const PORT = process.env.PORT || 5000;
