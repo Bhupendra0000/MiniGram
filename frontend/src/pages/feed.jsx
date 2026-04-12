@@ -5,7 +5,9 @@ import CreatePost from "../components/createpost";
 import PostCard from "../components/postcard";
 import { Button, Typography } from "@mui/material";
 
-const socket = io("http://localhost:5000");
+const socket = io(
+  process.env.REACT_APP_API_URL || "http://localhost:5000"
+);
 
 export default function Feed() {
 const [posts, setPosts] = useState([]);
