@@ -10,25 +10,38 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import InsertEmoticon from "@mui/icons-material/InsertEmoticon";
 import api from "../api";
 import { toast } from "react-toastify";
+import EmojiPicker from "emoji-picker-react";
 
 export default function CreatePost({ refresh }) {
+const [showEmoji, setShowEmoji] = useState(false);
 const [text, setText] = useState("");
 const [file, setFile] = useState(null);
 const fileRef = useRef();
 
+const onEmojiClick = (emojiData) => {
+  setText((prev) => prev + emojiData.emoji);
+};
+
 const submit = async () => {
   if (!text && !file) return toast.error("Add text or image");
 
-  const formData = new FormData();
-  formData.append("text", text);
-  if (file) formData.append("image", file);
+  try {
+    const formData = new FormData();
+    formData.append("text", text);
+    if (file) formData.append("image", file);
 
-  await api.post("/posts", formData);
+    await api.post("/posts", formData);
 
-  toast.success("Posted successfully");
-  setText("");
-  setFile(null);
-  refresh();
+    toast.success("Posted successfully");
+
+    setText("");
+    setFile(null);
+    setShowEmoji(false);
+    refresh();
+  } catch (err) {
+    console.error(err);
+    toast.error("Post failed");
+  }
 };
 
 return (
@@ -37,7 +50,7 @@ return (
       p: 2,
       mb: 2,
       borderRadius: 5,
-      background: (theme) => theme.palette.background.paper
+      position: "relative"
     }}
   >
     <Typography fontWeight="bold">Create Post</Typography>
@@ -59,11 +72,15 @@ return (
     />
 
     {file && (
-     <img
-  src={URL.createObjectURL(file)}
-  alt="preview"
-  style={{ width: "100%", marginTop: 10, borderRadius: 10 }}
-/>
+      <img
+        src={URL.createObjectURL(file)}
+        alt="preview"
+        style={{
+          width: "100%",
+          marginTop: 10,
+          borderRadius: 10
+        }}
+      />
     )}
 
     <div
@@ -78,7 +95,7 @@ return (
           <PhotoCamera />
         </IconButton>
 
-        <IconButton>
+        <IconButton onClick={() => setShowEmoji(!showEmoji)}>
           <InsertEmoticon />
         </IconButton>
       </div>
@@ -87,6 +104,12 @@ return (
         Post
       </Button>
     </div>
+
+    {showEmoji && (
+      <div style={{ marginTop: 10 }}>
+        <EmojiPicker onEmojiClick={onEmojiClick} />
+      </div>
+    )}
   </Paper>
 );
 }
