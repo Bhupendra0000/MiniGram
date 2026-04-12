@@ -25,5 +25,5 @@ Backend: https://minigram-backend-oz9e.onrender.com
 ## 📂 Folder Structure
 - /frontend
 - /backend
-# Mini-social-app(MiniGram)
+# By-nikcOde
 
