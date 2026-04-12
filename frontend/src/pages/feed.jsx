@@ -60,7 +60,11 @@ useEffect(() => {
 
 const like = async (id) => {
   try {
-    await api.put(`/posts/like/${id}`);
+    const res = await api.put(`/posts/like/${id}`);
+
+    setPosts((prev) =>
+      prev.map((p) => (p._id === id ? res.data : p))
+    );
   } catch (err) {
     console.error(err);
   }
